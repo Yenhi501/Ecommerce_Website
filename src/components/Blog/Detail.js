@@ -2,7 +2,33 @@ import React from 'react';
 import Rate from './Rate';
 import social from './img/socials.png';
 import ListComment from './ListComment';
-const Detail = () => {
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { error } from 'jquery';
+import axios from 'axios';
+const Detail = (props) => {
+  let params = useParams();
+
+  const [data, setData] = useState('');
+  // const [comment, setComment] = useState([]);
+  // const [idRely, setIdRely] = useState('');
+
+  useEffect(() => {
+    axios
+      .get(
+        'https://localhost/laravel8/laravel8/public/api/blog/detail/' +
+          params.id,
+        // console.log(params.id),
+      )
+      .then((res) => {
+        console.log(res);
+        setData(res.data.data);
+        // setComment(res.data.data.comment);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
   return (
     <div class="col-sm-9">
       <div class="blog-post-area">
@@ -22,37 +48,19 @@ const Detail = () => {
               </li>
             </ul>
           </div>
-          <a href="#">
-            <img src="images/blog/blog-one.jpg" alt="" />
+          <a href="/">
+            <img
+              src={
+                'https://localhost/laravel8/laravel8/public/upload/Blog/image/' +
+                data.image
+              }
+              alt=""
+            />
           </a>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.
-          </p>
+
+          <p>{data.content}</p>
           <br />
-          <p>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum. Sed ut perspiciatis
-            unde omnis iste natus error sit voluptatem accusantium doloremque
-            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-            veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          </p>
-          <br />
-          <p>
-            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-            fugit, sed quia consequuntur magni dolores eos qui ratione
-            voluptatem sequi nesciunt.
-          </p>
-          <br />
-          <p>
-            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-            consectetur, adipisci velit, sed quia non numquam eius modi tempora
-            incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-          </p>
+
           <div class="pager-area">
             <ul class="pager pull-right">
               <li>
