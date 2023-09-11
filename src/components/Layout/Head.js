@@ -131,7 +131,7 @@ const Head = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="/login">
+                      <a href="/account">
                         <i class="fa fa-lock"></i> Login
                       </a>
                     </li>

@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App';
 import Blog from './components/Blog';
 import Detail from './components/Blog/Detail';
-import Login from './components/Account/Login';
+import Account from './components/Account';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -17,7 +17,7 @@ root.render(
       <App>
         <Routes>
           <Route index path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/blog/list" element={<Blog />} />
           <Route path="/blog/detail/:id" element={<Detail />} />
         </Routes>
