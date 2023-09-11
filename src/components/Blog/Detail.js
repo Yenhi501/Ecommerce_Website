@@ -30,21 +30,21 @@ const Detail = (props) => {
       });
   }, []);
   return (
-    <div class="col-sm-9">
-      <div class="blog-post-area">
-        <h2 class="title text-center">Latest From our Blog</h2>
-        <div class="single-blog-post">
+    <div className="col-sm-9">
+      <div className="blog-post-area">
+        <h2 className="title text-center">Latest From our Blog</h2>
+        <div className="single-blog-post">
           <h3>Girls Pink T Shirt arrived in store</h3>
-          <div class="post-meta">
+          <div className="post-meta">
             <ul>
               <li>
-                <i class="fa fa-user"></i> Mac Doe
+                <i className="fa fa-user"></i> Mac Doe
               </li>
               <li>
-                <i class="fa fa-clock-o"></i> 1:33 pm
+                <i className="fa fa-clock-o"></i> 1:33 pm
               </li>
               <li>
-                <i class="fa fa-calendar"></i> DEC 5, 2013
+                <i className="fa fa-calendar"></i> DEC 5, 2013
               </li>
             </ul>
           </div>
@@ -61,8 +61,8 @@ const Detail = (props) => {
           <p>{data.content}</p>
           <br />
 
-          <div class="pager-area">
-            <ul class="pager pull-right">
+          <div className="pager-area">
+            <ul className="pager pull-right">
               <li>
                 <a href="#">Pre</a>
               </li>
@@ -76,7 +76,7 @@ const Detail = (props) => {
 
       <Rate />
 
-      <div class="socials-share">
+      <div className="socials-share">
         <a href="#">
           <img src={social} alt="" />
         </a>
@@ -84,18 +84,18 @@ const Detail = (props) => {
 
       <ListComment />
 
-      <div class="replay-box">
-        <div class="row">
-          <div class="col-sm-12">
+      <div className="replay-box">
+        <div className="row">
+          <div className="col-sm-12">
             <h2>Leave a replay</h2>
 
-            <div class="text-area">
-              <div class="blank-arrow">
+            <div className="text-area">
+              <div className="blank-arrow">
                 <label>Your Name</label>
               </div>
               <span>*</span>
               <textarea name="message" rows="11"></textarea>
-              <a class="btn btn-primary" href="">
+              <a className="btn btn-primary" href="">
                 post comment
               </a>
             </div>

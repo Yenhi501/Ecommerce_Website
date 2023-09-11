@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import FormErrors from './FormErrors';
+// import FormErrors from './FormErrors';
+import axios from 'axios';
 
 const Register = () => {
   const styleError = {
@@ -15,47 +16,75 @@ const Register = () => {
     phone: '',
     address: '',
     avatar: '',
-    level: '',
+    level: 0,
   });
-    const [errors, setErrors] = useState({
-      avatar:''
+  const [errors, setErrors] = useState({
+    avatar: '',
   });
+
+  const [avatar, setAvatar] = useState('');
+  const [file, setFile] = useState(null);
 
   const handleInput = (e) => {
     const nameInput = e.target.name;
     const value = e.target.value;
     setInputs((state) => ({ ...state, [nameInput]: value }));
-
-    if (nameInput === 'avatar') {
-      const file = e.target.files[0];
-      const allowedTypes = [
-        'image/jpeg',
-        'image/png',
-        'image/jpg',
-        'image/PNG',
-        'image/JPG',
-      ];
-      const maxSize = 1 * 1024 * 1024;
-
-      if (!allowedTypes.includes(file.type)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          avatar: 'Loại tệp không hợp lệ. Vui lòng chọn ảnh JPEG hoặc PNG.',
-        }));
-      } else if (file.size > maxSize) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          avatar:
-            'Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.',
-        }));
-      } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          avatar: '',
-        }));
-      }
-    }
   };
+
+ function handleUserInputFile(e) {
+  const file = e.target.files[0];
+  const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/jpg',
+    'image/PNG',
+    'image/JPG',
+  ];
+  const maxSize = 1 * 1024 * 1024;
+
+  if (!allowedTypes.includes(file.type)) {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      avatar: 'Loại tệp không hợp lệ. Vui lòng chọn ảnh JPEG hoặc PNG.',
+    }));
+  } else if (file.size > maxSize) {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      avatar:
+        'Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.',
+    }));
+  } else {
+    setErrors((prevErrors) => ({ ...prevErrors, avatar: '' }));
+
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      setAvatar(e.target.result);
+      setFile(file);
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        avatar: e.target.result, // Update inputs.avatar with the file data
+      }));
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+
+  const sendDataToAPI = async () => {
+    const response = await axios.post('http://localhost/public/api/account/register/', inputs);
+    console.log('Dữ liệu đã được gửi thành công:', response.data);
+  };
+
+  // function handleUserInputFile(e) {
+  //   const file = e.target.value;
+  //   let reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     setAvatar(e.target.result);
+  //     setFile(file[0]);
+  //   };
+  //   reader.readAsDataURL(file[0]);
+  // }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let errorSubmit = {};
@@ -93,8 +122,10 @@ const Register = () => {
       setErrors(errorSubmit);
     } else {
       setErrors({});
+      sendDataToAPI();
     }
   };
+
   return (
     <form action="#" enctype="multipart/form-data" onSubmit={handleSubmit}>
       <input
@@ -102,6 +133,7 @@ const Register = () => {
         type="text"
         placeholder="Name"
         onChange={handleInput}
+        value={inputs.name}
       />
       {errors.name && <p style={styleError}>{errors.name}</p>}
       <input
@@ -109,6 +141,7 @@ const Register = () => {
         type="email"
         placeholder="Email"
         onChange={handleInput}
+        value={inputs.email}
       />
       {errors.email && <p style={styleError}>{errors.email}</p>}
       <input
@@ -116,6 +149,7 @@ const Register = () => {
         type="password"
         placeholder="Password"
         onChange={handleInput}
+        value={inputs.pass}
       />
       {errors.pass && <p style={styleError}>{errors.pass}</p>}
       <input
@@ -123,6 +157,7 @@ const Register = () => {
         type="text"
         placeholder="Phone"
         onChange={handleInput}
+        value={inputs.phone}
       />
       {errors.phone && <p style={styleError}>{errors.phone}</p>}
       <input
@@ -130,19 +165,21 @@ const Register = () => {
         type="text"
         placeholder="Address"
         onChange={handleInput}
+        value={inputs.address}
       />
       {errors.address && <p style={styleError}>{errors.address}</p>}
-      <input name="avatar" type="file" onChange={handleInput} />
+      <input name="avatar" type="file" onChange={handleUserInputFile} />
       {errors.avatar && <p style={styleError}>{errors.avatar}</p>}
       <input
         name="level"
         type="text"
         placeholder="Level with Admin (1) and User (0)"
         onChange={handleInput}
+        value={inputs.level}
       />
       {errors.level && <p style={styleError}>{errors.level}</p>}
       {/* <FormErrors errors={errors} /> */}
-      <button type="submit" class="btn btn-default">
+      <button type="submit" className="btn btn-default">
         Signup
       </button>
     </form>

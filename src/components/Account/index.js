@@ -6,20 +6,20 @@ const Account = () => {
   return (
     <div>
       <section id="form">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-4">
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-4">
               {/* col-sm-offset-1 */}
-              <div class="login-form">
+              <div className="login-form">
                 <h2>Login to your account</h2>
                 <Login />
               </div>
             </div>
-            <div class="col-sm-1">
-              <h2 class="or">OR</h2>
+            <div className="col-sm-1">
+              <h2 className="or">OR</h2>
             </div>
-            <div class="col-sm-4">
-              <div class="signup-form">
+            <div className="col-sm-4">
+              <div className="signup-form">
                 <h2>New User Signup!</h2>
                 <Register />
               </div>
