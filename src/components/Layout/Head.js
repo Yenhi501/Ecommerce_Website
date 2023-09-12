@@ -1,6 +1,12 @@
 import React from 'react';
 import logo from './img/logo.png';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Head = () => {
+  const isLogged = JSON.parse(localStorage.getItem('isLogged'));
+  const handleLogout = () => {
+    localStorage.removeItem('isLogged');
+  };
   return (
     <div>
       <header id="header">
@@ -130,11 +136,22 @@ const Head = () => {
                         <i class="fa fa-shopping-cart"></i> Cart
                       </a>
                     </li>
-                    <li>
-                      <a href="/account">
-                        <i class="fa fa-lock"></i> Login
-                      </a>
-                    </li>
+                    {isLogged ? (
+                      <>
+                        <li>
+                          <Link to="/">
+                            <i className="fa fa-user"></i> Account
+                          </Link>
+                        </li>
+                        <li>
+                          <a onClick={handleLogout}> Logout</a>
+                        </li>
+                      </>
+                    ) : (
+                      <li>
+                        <Link to="/account">Login </Link>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>

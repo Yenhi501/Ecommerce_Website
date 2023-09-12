@@ -12,7 +12,7 @@ const Register = () => {
   const [inputs, setInputs] = useState({
     name: '',
     email: '',
-    pass: '',
+    password: '',
     phone: '',
     address: '',
     avatar: '',
@@ -31,59 +31,62 @@ const Register = () => {
     setInputs((state) => ({ ...state, [nameInput]: value }));
   };
 
- function handleUserInputFile(e) {
-  const file = e.target.files[0];
-  const allowedTypes = [
-    'image/jpeg',
-    'image/png',
-    'image/jpg',
-    'image/PNG',
-    'image/JPG',
-  ];
-  const maxSize = 1 * 1024 * 1024;
+  function handleUserInputFile(e) {
+    const file = e.target.files[0];
+    const allowedTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/jpg',
+      'image/PNG',
+      'image/JPG',
+    ];
+    const maxSize = 1 * 1024 * 1024;
 
-  if (!allowedTypes.includes(file.type)) {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      avatar: 'Loại tệp không hợp lệ. Vui lòng chọn ảnh JPEG hoặc PNG.',
-    }));
-  } else if (file.size > maxSize) {
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      avatar:
-        'Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.',
-    }));
-  } else {
-    setErrors((prevErrors) => ({ ...prevErrors, avatar: '' }));
-
-    let reader = new FileReader();
-    reader.onload = (e) => {
-      setAvatar(e.target.result);
-      setFile(file);
-      setInputs((prevInputs) => ({
-        ...prevInputs,
-        avatar: e.target.result, // Update inputs.avatar with the file data
+    if (!allowedTypes.includes(file.type)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        avatar: 'Loại tệp không hợp lệ. Vui lòng chọn ảnh JPEG hoặc PNG.',
       }));
-    };
-    reader.readAsDataURL(file);
-  }
-}
+    } else if (file.size > maxSize) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        avatar:
+          'Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.',
+      }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, avatar: '' }));
 
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setAvatar(e.target.result);
+        setFile(file);
+        setInputs((prevInputs) => ({
+          ...prevInputs,
+          avatar: e.target.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   const sendDataToAPI = async () => {
-    const response = await axios.post('http://localhost/public/api/account/register/', inputs);
-    console.log('Dữ liệu đã được gửi thành công:', response.data);
+    try {
+      const response = await axios.post(
+        'https://localhost/laravel8/laravel8/public/api/register',
+        inputs,
+      );
+      console.log(inputs);
+      // console.log('API Response:', response.data);
+      if (response.data.errors) {
+        alert('error');
+        setErrors(response.data.errors);
+      } else {
+        alert('Đăng ký thành công');
+      }
+    } catch (error) {
+      console.error('Error sending data to API:', error);
+    }
   };
-
-  // function handleUserInputFile(e) {
-  //   const file = e.target.value;
-  //   let reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     setAvatar(e.target.result);
-  //     setFile(file[0]);
-  //   };
-  //   reader.readAsDataURL(file[0]);
-  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -98,8 +101,8 @@ const Register = () => {
       errorSubmit.email = 'Vui lòng nhập email !';
       flag = false;
     }
-    if (inputs.pass === '') {
-      errorSubmit.pass = 'Vui lòng nhập pass !';
+    if (inputs.password === '') {
+      errorSubmit.password = 'Vui lòng nhập pass !';
       flag = false;
     }
     if (inputs.phone === '') {
@@ -145,13 +148,13 @@ const Register = () => {
       />
       {errors.email && <p style={styleError}>{errors.email}</p>}
       <input
-        name="pass"
+        name="password"
         type="password"
         placeholder="Password"
         onChange={handleInput}
-        value={inputs.pass}
+        value={inputs.password}
       />
-      {errors.pass && <p style={styleError}>{errors.pass}</p>}
+      {errors.password && <p style={styleError}>{errors.password}</p>}
       <input
         name="phone"
         type="text"
