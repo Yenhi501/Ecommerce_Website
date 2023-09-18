@@ -58,13 +58,18 @@ const Login = () => {
 
         axios
           .post('https://localhost/laravel8/laravel8/public/api/login', data)
-          .then((response) => {
-            console.log(response);
-
-            if (response.data.errors) {
-              setErrors(response.data.errors);
+          .then((res) => {
+            console.log(res);
+            let accessToken = JSON.stringify(res.data.token);
+            console.log(res.data.Auth);
+            console.log(res.data.token);
+            let appState = JSON.stringify(res.data.Auth);
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('appState', appState);
+            if (res.data.errors) {
+              setErrors(res.data.errors);
             } else {
-              localStorage.setItem('isLoggedIn', data);
+              localStorage.setItem('isLoggedIn', 'true');
               navigate('/');
             }
           })
@@ -74,6 +79,7 @@ const Login = () => {
       }
     }
   };
+
   return (
     <form action="#" onSubmit={handleSubmit}>
       <input
@@ -92,7 +98,7 @@ const Login = () => {
         value={inputs.password}
       />
       {errors.password && <p style={styleError}>{errors.password}</p>}
-      <input name="level" type="text" value={inputs.level} />
+      {/* <input name="level" type="text" value={inputs.level} /> */}
       <span>
         <input name="check" type="checkbox" className="checkbox" />
         Keep me signed in

@@ -10,9 +10,47 @@ const Detail = (props) => {
   let params = useParams();
 
   const [data, setData] = useState('');
-  // const [comment, setComment] = useState([]);
-  // const [idRely, setIdRely] = useState('');
+  const [comment, setComment] = useState([]);
 
+  const handleCheckLogin = () => {
+    let access = localStorage.getItem('accessToken');
+    let accessToken = JSON.parse(access);
+    console.log(accessToken);
+
+    const userData = JSON.parse(localStorage.getItem('appState'));
+
+    let url =
+      'https://localhost/laravel8/laravel8/public/api/blog/comment/' +
+      props.idBlog;
+    console.log(userData);
+
+    let config = {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+      },
+    };
+
+    if (!userData) {
+      console.log('Vui lòng đăng nhập trước khi đăng bình luận.');
+    } else if (!comment) {
+      alert('Vui lòng nhập bình luận');
+    } else {
+      const formData = new FormData();
+      formData.append('id_blog', props.idBlog);
+      formData.append('id_user', userData.id);
+      formData.append('id_comment', 0);
+      formData.append('comment', comment);
+      formData.append('image_user', userData.avatar);
+      formData.append('name_user', userData.name);
+      // console.log(userData.name);
+
+      axios.post(url, formData, config).then((response) => {
+        console.log(response);
+      });
+    }
+  };
   useEffect(() => {
     axios
       .get(
@@ -23,12 +61,13 @@ const Detail = (props) => {
       .then((res) => {
         console.log(res);
         setData(res.data.data);
-        // setComment(res.data.data.comment);
+        setComment(res.data.data.comment);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
+
   return (
     <div className="col-sm-9">
       <div className="blog-post-area">
@@ -83,25 +122,6 @@ const Detail = (props) => {
       </div>
 
       <ListComment />
-
-      <div className="replay-box">
-        <div className="row">
-          <div className="col-sm-12">
-            <h2>Leave a replay</h2>
-
-            <div className="text-area">
-              <div className="blank-arrow">
-                <label>Your Name</label>
-              </div>
-              <span>*</span>
-              <textarea name="message" rows="11"></textarea>
-              <a className="btn btn-primary" href="">
-                post comment
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

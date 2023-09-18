@@ -8,7 +8,6 @@ const ListComment = () => {
         <h2>3 RESPONSES</h2>
         <ul class="media-list">
           <Comment />
-          <Comment />
         </ul>
       </div>
     </div>

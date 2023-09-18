@@ -3,58 +3,61 @@ import logo from './img/logo.png';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 const Head = () => {
-  const isLogged = JSON.parse(localStorage.getItem('isLogged'));
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
   const handleLogout = () => {
-    localStorage.removeItem('isLogged');
+    localStorage.removeItem('isLoggedIn');
+    navigate('/account'); // Assuming you have a route for login
   };
+
   return (
     <div>
       <header id="header">
-        <div class="header_top">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="contactinfo">
-                  <ul class="nav nav-pills">
+        <div className="header_top">
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="contactinfo">
+                  <ul className="nav nav-pills">
                     <li>
                       <a href="#">
-                        <i class="fa fa-phone"></i> +2 95 01 88 821
+                        <i className="fa fa-phone"></i> +2 95 01 88 821
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class="fa fa-envelope"></i> info@domain.com
+                        <i className="fa fa-envelope"></i> info@domain.com
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div class="col-sm-6">
-                <div class="social-icons pull-right">
-                  <ul class="nav navbar-nav">
+              <div className="col-sm-6">
+                <div className="social-icons pull-right">
+                  <ul className="nav navbar-nav">
                     <li>
                       <a href="#">
-                        <i class="fa fa-facebook"></i>
+                        <i className="fa fa-facebook"></i>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class="fa fa-twitter"></i>
+                        <i className="fa fa-twitter"></i>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class="fa fa-linkedin"></i>
+                        <i className="fa fa-linkedin"></i>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class="fa fa-dribbble"></i>
+                        <i className="fa fa-dribbble"></i>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class="fa fa-google-plus"></i>
+                        <i className="fa fa-google-plus"></i>
                       </a>
                     </li>
                   </ul>
@@ -64,26 +67,26 @@ const Head = () => {
           </div>
         </div>
 
-        <div class="header-middle">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-4 clearfix">
-                <div class="logo pull-left">
+        <div className="header-middle">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4 clearfix">
+                <div className="logo pull-left">
                   <a href="/">
                     <img src={logo} alt="" />
                   </a>
                 </div>
-                <div class="btn-group pull-right clearfix">
-                  <div class="btn-group">
+                <div className="btn-group pull-right clearfix">
+                  <div className="btn-group">
                     <button
                       type="button"
-                      class="btn btn-default dropdown-toggle usa"
+                      className="btn btn-default dropdown-toggle usa"
                       data-toggle="dropdown"
                     >
                       USA
-                      <span class="caret"></span>
+                      <span className="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul className="dropdown-menu">
                       <li>
                         <a href="">Canada</a>
                       </li>
@@ -93,16 +96,16 @@ const Head = () => {
                     </ul>
                   </div>
 
-                  <div class="btn-group">
+                  <div className="btn-group">
                     <button
                       type="button"
-                      class="btn btn-default dropdown-toggle usa"
+                      className="btn btn-default dropdown-toggle usa"
                       data-toggle="dropdown"
                     >
                       DOLLAR
-                      <span class="caret"></span>
+                      <span className="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul className="dropdown-menu">
                       <li>
                         <a href="">Canadian Dollar</a>
                       </li>
@@ -113,43 +116,40 @@ const Head = () => {
                   </div>
                 </div>
               </div>
-              <div class="col-md-8 clearfix">
-                <div class="shop-menu clearfix pull-right">
-                  <ul class="nav navbar-nav">
+              <div className="col-md-8 clearfix">
+                <div className="shop-menu clearfix pull-right">
+                  <ul className="nav navbar-nav">
                     <li>
                       <a href="">
-                        <i class="fa fa-user"></i> Account
+                        <i className="fa fa-user"></i> Account
                       </a>
                     </li>
                     <li>
                       <a href="">
-                        <i class="fa fa-star"></i> Wishlist
+                        <i className="fa fa-star"></i> Wishlist
                       </a>
                     </li>
                     <li>
                       <a href="checkout.html">
-                        <i class="fa fa-crosshairs"></i> Checkout
+                        <i className="fa fa-crosshairs"></i> Checkout
                       </a>
                     </li>
                     <li>
                       <a href="cart.html">
-                        <i class="fa fa-shopping-cart"></i> Cart
+                        <i className="fa fa-shopping-cart"></i> Cart
                       </a>
                     </li>
-                    {isLogged ? (
-                      <>
-                        <li>
-                          <Link to="/">
-                            <i className="fa fa-user"></i> Account
-                          </Link>
-                        </li>
-                        <li>
-                          <a onClick={handleLogout}> Logout</a>
-                        </li>
-                      </>
+                    {isLoggedIn ? (
+                      <li>
+                        <a onClick={handleLogout}>
+                          <i className="fa fa-unlock"></i> Logout
+                        </a>
+                      </li>
                     ) : (
                       <li>
-                        <Link to="/account">Login </Link>
+                        <a href="/account">
+                          <i className="fa fa-lock"></i> Login
+                        </a>
                       </li>
                     )}
                   </ul>
@@ -159,35 +159,35 @@ const Head = () => {
           </div>
         </div>
 
-        <div class="header-bottom">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-9">
-                <div class="navbar-header">
+        <div className="header-bottom">
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-9">
+                <div className="navbar-header">
                   <button
                     type="button"
-                    class="navbar-toggle"
+                    className="navbar-toggle"
                     data-toggle="collapse"
                     data-target=".navbar-collapse"
                   >
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span className="sr-only">Toggle navigation</span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
                   </button>
                 </div>
-                <div class="mainmenu pull-left">
-                  <ul class="nav navbar-nav collapse navbar-collapse">
+                <div className="mainmenu pull-left">
+                  <ul className="nav navbar-nav collapse navbar-collapse">
                     <li>
-                      <a href="/" class="active">
+                      <a href="/" className="active">
                         Home
                       </a>
                     </li>
-                    <li class="dropdown">
+                    <li className="dropdown">
                       <a href="#">
-                        Shop<i class="fa fa-angle-down"></i>
+                        Shop<i className="fa fa-angle-down"></i>
                       </a>
-                      <ul role="menu" class="sub-menu">
+                      <ul role="menu" className="sub-menu">
                         <li>
                           <a href="shop.html">Products</a>
                         </li>
@@ -205,11 +205,11 @@ const Head = () => {
                         </li>
                       </ul>
                     </li>
-                    <li class="dropdown">
+                    <li className="dropdown">
                       <a href="#">
-                        Blog<i class="fa fa-angle-down"></i>
+                        Blog<i className="fa fa-angle-down"></i>
                       </a>
-                      <ul role="menu" class="sub-menu">
+                      <ul role="menu" className="sub-menu">
                         <li>
                           <a href="/blog/list">Blog List</a>
                         </li>
@@ -227,8 +227,8 @@ const Head = () => {
                   </ul>
                 </div>
               </div>
-              <div class="col-sm-3">
-                <div class="search_box pull-right">
+              <div className="col-sm-3">
+                <div className="search_box pull-right">
                   <input type="text" placeholder="Search" />
                 </div>
               </div>
