@@ -6,51 +6,13 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { error } from 'jquery';
 import axios from 'axios';
+import Comment from './Comment';
 const Detail = (props) => {
   let params = useParams();
 
   const [data, setData] = useState('');
-  const [comment, setComment] = useState([]);
+  const [cmt, setCmt] = useState([]);
 
-  const handleCheckLogin = () => {
-    let access = localStorage.getItem('accessToken');
-    let accessToken = JSON.parse(access);
-    console.log(accessToken);
-
-    const userData = JSON.parse(localStorage.getItem('appState'));
-
-    let url =
-      'https://localhost/laravel8/laravel8/public/api/blog/comment/' +
-      props.idBlog;
-    console.log(userData);
-
-    let config = {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-    };
-
-    if (!userData) {
-      console.log('Vui lòng đăng nhập trước khi đăng bình luận.');
-    } else if (!comment) {
-      alert('Vui lòng nhập bình luận');
-    } else {
-      const formData = new FormData();
-      formData.append('id_blog', props.idBlog);
-      formData.append('id_user', userData.id);
-      formData.append('id_comment', 0);
-      formData.append('comment', comment);
-      formData.append('image_user', userData.avatar);
-      formData.append('name_user', userData.name);
-      // console.log(userData.name);
-
-      axios.post(url, formData, config).then((response) => {
-        console.log(response);
-      });
-    }
-  };
   useEffect(() => {
     axios
       .get(
@@ -61,12 +23,13 @@ const Detail = (props) => {
       .then((res) => {
         console.log(res);
         setData(res.data.data);
-        setComment(res.data.data.comment);
+        setCmt(res.data.data.cmt);
+        alert(res.data.data.cmt);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [params.id]);
 
   return (
     <div className="col-sm-9">
@@ -77,7 +40,7 @@ const Detail = (props) => {
           <div className="post-meta">
             <ul>
               <li>
-                <i className="fa fa-user"></i> Mac Doe
+                <i className="fa fa-user"></i>
               </li>
               <li>
                 <i className="fa fa-clock-o"></i> 1:33 pm
@@ -121,9 +84,12 @@ const Detail = (props) => {
         </a>
       </div>
 
-      <ListComment />
+      <ListComment cmt={cmt} />
+      <Comment />
     </div>
   );
 };
 
 export default Detail;
+
+// khi gọi API về thì trong này có mảng chứa các comment lấy cái này set vào biến cmt và gửi qua bên ListComment.js

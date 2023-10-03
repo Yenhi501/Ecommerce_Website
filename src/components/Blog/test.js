@@ -1,30 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-const ListComment = () => {
-  const [data, setData] = useState('');
-  let params = useParams();
-  useEffect(() => {
-    axios
-      .get(
-        'https://localhost/laravel8/laravel8/public/api/blog/detail/' +
-          params.id,
-      )
-      .then((res) => {
-        console.log(res);
-        setData(res.data.data);
-      })
-      .catch((error) => console.log(error));
-  }, [params.id]);
+const ListComment = (props) => {
+  const { cmt } = props;
 
   return (
     <div>
-      <div class="response-area">
+      <div className="response-area">
         <h2>3 RESPONSES</h2>
         <ul className="media-list">
-          {data &&
-            data.comment &&
-            data.comment.map((item) => (
+          {cmt &&
+            cmt.map((item) => (
               <li className="media" key={item.id}>
                 <a className="pull-left" href="#">
                   <img
