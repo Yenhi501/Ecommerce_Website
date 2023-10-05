@@ -1,35 +1,35 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import Comment from './Comment';
+import ListComment from './ListComment';
 import Rate from './Rate';
 import social from './img/socials.png';
-import ListComment from './ListComment';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { error } from 'jquery';
-import axios from 'axios';
-import Comment from './Comment';
 const Detail = (props) => {
   let params = useParams();
 
   const [data, setData] = useState('');
-  const [cmt, setCmt] = useState([]);
+  const [listCmt, setListCmt] = useState([]);
 
   useEffect(() => {
     axios
       .get(
         'https://localhost/laravel8/laravel8/public/api/blog/detail/' +
           params.id,
-        // console.log(params.id),
       )
       .then((res) => {
         console.log(res);
         setData(res.data.data);
-        setCmt(res.data.data.cmt);
-        alert(res.data.data.cmt);
+        setListCmt(res.data.data.comment);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        console.error(error);
       });
   }, [params.id]);
+
+  function getCmt(data) {
+    setListCmt((prevListCmt) => [...prevListCmt, data]);
+  }
 
   return (
     <div className="col-sm-9">
@@ -84,8 +84,8 @@ const Detail = (props) => {
         </a>
       </div>
 
-      <ListComment cmt={cmt} />
-      <Comment />
+      <ListComment listCmt={listCmt} />
+      <Comment getCmt={getCmt} />
     </div>
   );
 };

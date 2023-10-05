@@ -1,28 +1,20 @@
 import axios from 'axios';
-import { data } from 'jquery';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const Comment = (props) => {
+const Comment = ({ getCmt }) => {
   let params = useParams();
 
-  // const userID = params.
-
   const [newComment, setNewComment] = useState('');
-  const [comment, setComment] = useState([]);
 
   const handleCheckLogin = () => {
     let access = localStorage.getItem('accessToken');
     let accessToken = JSON.parse(access);
-    console.log(accessToken);
-
     const userData = JSON.parse(localStorage.getItem('appState'));
-    console.log(userData);
 
     let url =
       'https://localhost/laravel8/laravel8/public/api/blog/comment/' +
       params.id;
-    console.log(userData);
 
     let config = {
       headers: {
@@ -40,18 +32,15 @@ const Comment = (props) => {
       const formData = new FormData();
       formData.append('id_blog', params.id);
       formData.append('id_user', userData.id);
-      formData.append('id_comment', 0);
+      // formData.append('id_comment', XX ? XX : 0);
       formData.append('comment', newComment);
       formData.append('image_user', userData.avatar);
       formData.append('name_user', userData.name);
 
-      console.log(userData.name);
-
       axios
         .post(url, formData, config)
         .then((response) => {
-          console.log(response);
-          setComment([...comment, response.data.data]);
+          getCmt(response.data.data);
           setNewComment('');
         })
         .catch((error) => {
@@ -59,6 +48,7 @@ const Comment = (props) => {
         });
     }
   };
+
   return (
     <div>
       <div className="replay-box">
