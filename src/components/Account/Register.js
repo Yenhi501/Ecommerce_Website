@@ -33,13 +33,7 @@ const Register = () => {
 
   function handleUserInputFile(e) {
     const file = e.target.files[0];
-    const allowedTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/jpg',
-      'image/PNG',
-      'image/JPG',
-    ];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/PNG', 'image/JPG'];
     const maxSize = 1 * 1024 * 1024;
 
     if (!allowedTypes.includes(file.type)) {
@@ -50,8 +44,7 @@ const Register = () => {
     } else if (file.size > maxSize) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        avatar:
-          'Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.',
+        avatar: 'Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.',
       }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, avatar: '' }));
@@ -71,10 +64,7 @@ const Register = () => {
 
   const sendDataToAPI = async () => {
     try {
-      const response = await axios.post(
-        'https://localhost/laravel8/laravel8/public/api/register',
-        inputs,
-      );
+      const response = await axios.post('https://localhost/laravel8/laravel8/public/api/register', inputs);
       console.log(inputs);
       // console.log('API Response:', response.data);
       if (response.data.errors) {
@@ -131,55 +121,19 @@ const Register = () => {
 
   return (
     <form action="#" enctype="multipart/form-data" onSubmit={handleSubmit}>
-      <input
-        name="name"
-        type="text"
-        placeholder="Name"
-        onChange={handleInput}
-        value={inputs.name}
-      />
+      <input name="name" type="text" placeholder="Name" onChange={handleInput} value={inputs.name} />
       {errors.name && <p style={styleError}>{errors.name}</p>}
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        onChange={handleInput}
-        value={inputs.email}
-      />
+      <input name="email" type="email" placeholder="Email" onChange={handleInput} value={inputs.email} />
       {errors.email && <p style={styleError}>{errors.email}</p>}
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        onChange={handleInput}
-        value={inputs.password}
-      />
+      <input name="password" type="password" placeholder="Password" onChange={handleInput} value={inputs.password} />
       {errors.password && <p style={styleError}>{errors.password}</p>}
-      <input
-        name="phone"
-        type="text"
-        placeholder="Phone"
-        onChange={handleInput}
-        value={inputs.phone}
-      />
+      <input name="phone" type="text" placeholder="Phone" onChange={handleInput} value={inputs.phone} />
       {errors.phone && <p style={styleError}>{errors.phone}</p>}
-      <input
-        name="address"
-        type="text"
-        placeholder="Address"
-        onChange={handleInput}
-        value={inputs.address}
-      />
+      <input name="address" type="text" placeholder="Address" onChange={handleInput} value={inputs.address} />
       {errors.address && <p style={styleError}>{errors.address}</p>}
       <input name="avatar" type="file" onChange={handleUserInputFile} />
       {errors.avatar && <p style={styleError}>{errors.avatar}</p>}
-      <input
-        name="level"
-        type="text"
-        placeholder="Level with Admin (1) and User (0)"
-        onChange={handleInput}
-        value={inputs.level}
-      />
+      <input name="level" type="text" placeholder="Level with Admin (1) and User (0)" onChange={handleInput} value={inputs.level} />
       {errors.level && <p style={styleError}>{errors.level}</p>}
       {/* <FormErrors errors={errors} /> */}
       <button type="submit" className="btn btn-default">

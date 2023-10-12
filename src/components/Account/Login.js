@@ -12,10 +12,6 @@ const Login = () => {
     marginTop: '-8px',
     fontSize: '12px',
   };
-  // const styleErrorCheck = {
-  //   color: 'red',
-  //   fontSize: '12px',
-  // };
 
   const [inputs, setInputs] = useState({
     password: '',
@@ -82,21 +78,9 @@ const Login = () => {
 
   return (
     <form action="#" onSubmit={handleSubmit}>
-      <input
-        name="email"
-        type="email"
-        placeholder="Email Address"
-        onChange={handleInput}
-        value={inputs.email}
-      />
+      <input name="email" type="email" placeholder="Email Address" onChange={handleInput} value={inputs.email} />
       {errors.email && <p style={styleError}>{errors.email}</p>}
-      <input
-        name="password"
-        type="text"
-        placeholder="Password"
-        onChange={handleInput}
-        value={inputs.password}
-      />
+      <input name="password" type="text" placeholder="Password" onChange={handleInput} value={inputs.password} />
       {errors.password && <p style={styleError}>{errors.password}</p>}
       {/* <input name="level" type="text" value={inputs.level} /> */}
       <span>

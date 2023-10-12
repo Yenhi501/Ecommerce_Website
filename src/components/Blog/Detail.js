@@ -1,24 +1,27 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import Comment from './Comment';
 import ListComment from './ListComment';
 import Rate from './Rate';
 import social from './img/socials.png';
-const Detail = (props) => {
-  let params = useParams();
 
+const Detail = () => {
+  const params = useParams();
   const [data, setData] = useState('');
   const [listCmt, setListCmt] = useState([]);
+  const [idCmt, setidCmt] = useState(null);
+
+  function getnewCommentId(commentId) {
+    setidCmt(commentId);
+    console.log('Reply clicked for comment ID:', commentId);
+  }
 
   useEffect(() => {
     axios
-      .get(
-        'https://localhost/laravel8/laravel8/public/api/blog/detail/' +
-          params.id,
-      )
+      .get(`https://localhost/laravel8/laravel8/public/api/blog/detail/${params.id}`)
       .then((res) => {
-        console.log(res);
         setData(res.data.data);
         setListCmt(res.data.data.comment);
       })
@@ -27,40 +30,32 @@ const Detail = (props) => {
       });
   }, [params.id]);
 
-  function getCmt(data) {
-    setListCmt((prevListCmt) => [...prevListCmt, data]);
-  }
+  const getCmt = (newComment) => {
+    setListCmt([...listCmt, newComment]);
+  };
 
   return (
     <div className="col-sm-9">
       <div className="blog-post-area">
         <h2 className="title text-center">Latest From our Blog</h2>
         <div className="single-blog-post">
-          <h3>Girls Pink T Shirt arrived in store</h3>
+          <h3>{data ? data.title : ''}</h3>
           <div className="post-meta">
             <ul>
               <li>
-                <i className="fa fa-user"></i>
+                <i className="fa fa-user"> Mac Doe</i>
               </li>
               <li>
-                <i className="fa fa-clock-o"></i> 1:33 pm
+                <i className="fa fa-clock-o"></i> 1 {data ? data.created_at.split(' ')[1] : ''}
               </li>
-              <li>
-                <i className="fa fa-calendar"></i> DEC 5, 2013
-              </li>
+              <li>{data ? data.created_at.split(' ')[0] : ''}</li>
             </ul>
           </div>
           <a href="/">
-            <img
-              src={
-                'https://localhost/laravel8/laravel8/public/upload/Blog/image/' +
-                data.image
-              }
-              alt=""
-            />
+            <img src={`https://localhost/laravel8/laravel8/public/upload/Blog/image/${data ? data.image : ''}`} alt="" />
           </a>
 
-          <p>{data.content}</p>
+          <p>{data ? data.content : ''}</p>
           <br />
 
           <div className="pager-area">
@@ -83,13 +78,13 @@ const Detail = (props) => {
           <img src={social} alt="" />
         </a>
       </div>
+      <ul className="media-list">
+        <ListComment listCmt={listCmt} getnewCommentId={getnewCommentId} />
+      </ul>
 
-      <ListComment listCmt={listCmt} />
-      <Comment getCmt={getCmt} />
+      <Comment getCmt={getCmt} postId={params.id} idCmt={idCmt} />
     </div>
   );
 };
 
 export default Detail;
-
-// khi gọi API về thì trong này có mảng chứa các comment lấy cái này set vào biến cmt và gửi qua bên ListComment.js
