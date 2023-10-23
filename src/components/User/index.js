@@ -2,7 +2,7 @@ import React from 'react';
 import Register from './Register';
 import Login from './Login';
 
-const Account = () => {
+const Accounts = () => {
   return (
     <div>
       <section id="form">
@@ -31,4 +31,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default Accounts;

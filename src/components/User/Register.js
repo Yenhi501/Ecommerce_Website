@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import FormErrors from './FormErrors';
 import axios from 'axios';
 
 const Register = () => {

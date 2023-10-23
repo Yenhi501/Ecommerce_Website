@@ -71,7 +71,7 @@ const Detail = () => {
         </div>
       </div>
 
-      <Rate />
+      <Rate postId={params.id} />
 
       <div className="socials-share">
         <a href="#">

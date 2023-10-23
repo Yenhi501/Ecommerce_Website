@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-// import FormErrors from './FormErrors';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import { error } from 'jquery';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,6 +58,7 @@ const Login = () => {
             console.log(res.data.Auth);
             console.log(res.data.token);
             let appState = JSON.stringify(res.data.Auth);
+            localStorage.setItem('login', true);
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('appState', appState);
             if (res.data.errors) {

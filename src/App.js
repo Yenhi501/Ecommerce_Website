@@ -4,6 +4,7 @@ import Slider from './components/Layout/Slider';
 import Footer from './components/Layout/Footer';
 import Head from './components/Layout/Head';
 import MenuLeft from './components/Layout/MenuLeft';
+import MenuAcc from './components/Layout/MenuAcc';
 
 function App(props) {
   // Sử dụng useLocation để lấy đối tượng location từ react-router-dom
@@ -19,7 +20,7 @@ function App(props) {
       <section>
         <div className="container">
           <div className="row">
-            <MenuLeft />
+            <MenuAcc />
             {props.children}
           </div>
         </div>

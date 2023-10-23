@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './img/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 const Head = () => {
   const navigate = useNavigate();
@@ -78,11 +78,7 @@ const Head = () => {
                 </div>
                 <div className="btn-group pull-right clearfix">
                   <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn btn-default dropdown-toggle usa"
-                      data-toggle="dropdown"
-                    >
+                    <button type="button" className="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
                       USA
                       <span className="caret"></span>
                     </button>
@@ -97,11 +93,7 @@ const Head = () => {
                   </div>
 
                   <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn btn-default dropdown-toggle usa"
-                      data-toggle="dropdown"
-                    >
+                    <button type="button" className="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
                       DOLLAR
                       <span className="caret"></span>
                     </button>
@@ -120,9 +112,9 @@ const Head = () => {
                 <div className="shop-menu clearfix pull-right">
                   <ul className="nav navbar-nav">
                     <li>
-                      <a href="">
+                      <NavLink to={'/account/update'}>
                         <i className="fa fa-user"></i> Account
-                      </a>
+                      </NavLink>
                     </li>
                     <li>
                       <a href="">
@@ -164,12 +156,7 @@ const Head = () => {
             <div className="row">
               <div className="col-sm-9">
                 <div className="navbar-header">
-                  <button
-                    type="button"
-                    className="navbar-toggle"
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse"
-                  >
+                  <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span className="sr-only">Toggle navigation</span>
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>

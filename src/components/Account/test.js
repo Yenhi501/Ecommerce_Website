@@ -1,172 +1,105 @@
-import React, { useRef, useState } from "react";
-import FormErrors from "./FormErrors";
-// import $ from "jquery";
-const arrs = [
-  {
-    id: "",
-    name: "Vui lòng chọn",
-  },
-  {
-    id: 1,
-    name: "Male",
-  },
-  {
-    id: 2,
-    name: "Female",
-  },
-];
+// import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { FaLock } from 'react-icons/fa';
+// import axios from 'axios';
+// import { GrMail } from 'react-icons/gr';
 
-const B32 = () => {
-  const [inputs, setInputs] = useState({
-    email: "",
-    pass: "",
-    avatar: "",
-    sex: "",
-  });
-  const [errors, setErrors] = useState({
-    email: "",
-    avatar: "",
-  });
+// const Login = () => {
+//   const navigate = useNavigate();
+//   const [getValueInput, setGetValueInput] = useState({
+//     email: '',
+//     password: '',
+//   });
+//   const [error, setError] = useState({});
 
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
+//   const handleValues = (e) => {
+//     const nameInput = e.target.name;
+//     const value = e.target.value;
+//     setGetValueInput((state) => ({ ...state, [nameInput]: value }));
+//   };
 
-  const handleInput = (e) => {
-    const nameInput = e.target.name;
-    const value = e.target.value;
-    setInputs((state) => ({ ...state, [nameInput]: value }));
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     let errorSubmit = {};
+//     let flag = true;
 
-    if (nameInput === "email") {
-      if (!value) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          email: "Vui lòng nhập email!",
-        }));
-      } else if (!/\S+@\S+\.\S+/.test(value)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          email: "Email không hợp lệ. Vui lòng nhập một địa chỉ email hợp lệ.",
-        }));
-      } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          email: "",
-        }));
-      }
-    }
-    if (nameInput === "avatar") {
-      const file = e.target.files[0];
-      const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/jpg",
-        "image/PNG",
-        "image/JPG",
-      ];
-      const maxSize = 1 * 1024 * 1024;
+//     function isEmail(email) {
+//       var regax = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+//       return regax.test(email);
+//     }
+//     if (!isEmail(getValueInput.email)) {
+//       errorSubmit.email = 'Please enter correct email format';
+//       flag = false;
+//     }
+//     if (getValueInput.email === '') {
+//       errorSubmit.email = 'Please enter your email';
+//       flag = false;
+//     }
 
-      if (!allowedTypes.includes(file.type)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          avatar: "Loại tệp không hợp lệ. Vui lòng chọn ảnh JPEG hoặc PNG.",
-        }));
-      } else if (file.size > maxSize) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          avatar:
-            "Kích thước tệp vượt quá giới hạn. Vui lòng chọn tệp nhỏ hơn 1MB.",
-        }));
-      } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          avatar: "",
-        }));
-      }
-    }
-  };
+//     if (getValueInput.password === '') {
+//       errorSubmit.password = 'Please enter your password';
+//       flag = false;
+//     }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+//     const data = {
+//       email: getValueInput.email,
+//       password: getValueInput.password,
+//       level: 0,
+//     };
 
-    let errorSubmit = {};
-    let flag = true;
+//     if (!flag) {
+//       setError(errorSubmit);
+//     } else {
+//       axios
+//         .post('http://localhost/laravel/laravel/public/api/login', data)
+//         .then((res) => {
+//           if (res.data.errors) {
+//             setError(res.data.errors);
+//           } else {
+//             navigate('/');
+//             localStorage.setItem('login', true);
+//             localStorage.setItem('token', JSON.stringify(res.data.success));
+//             localStorage.setItem('auth', JSON.stringify(res.data.Auth));
+//           }
+//         })
+//         .catch((err) => {
+//           console.log('hư rồi!');
+//         });
+//     }
+//   };
 
-    if (inputs.email === "") {
-      errorSubmit.email = "Vui lòng nhập email !";
-      flag = false;
-      emailRef.current.focus();
-    }
-    if (inputs.pass === "") {
-      errorSubmit.pass = "Vui lòng nhập pass !";
-      flag = false;
-      passwordRef.current.focus();
-    }
-    if (inputs.avatar === "") {
-      errorSubmit.avatar = "Vui lòng chọn tệp !";
-      flag = false;
-    }
-    if (inputs.sex === "") {
-      errorSubmit.sex = "Vui lòng chọn giới tính !";
-      flag = false;
-    }
-    if (!flag) {
-      setErrors(errorSubmit);
-    } else {
-      setErrors({});
-    }
+//   return (
+//     <div className="col-sm-9">
+//       <div className="form_login">
+//         <div className="title_container">
+//           <h2>Login</h2>
+//         </div>
+//         <form>
+//           <div className="input_field">
+//             <GrMail className="icon" />
+//             <input className="inp" type="email" placeholder="Email" name="email" value={getValueInput.email} onChange={handleValues} />
+//             <div className="msg-error">{error.email ? error.email : null}</div>
+//           </div>
+//           <div className="input_field">
+//             <FaLock className="icon" />
+//             <input
+//               className="inp"
+//               type="password"
+//               placeholder="Password"
+//               name="password"
+//               value={getValueInput.password}
+//               onChange={handleValues}
+//             />
+//             <div className="msg-error">{error.password ? error.password : null}</div>
+//           </div>
 
-    localStorage.setItem("userEmail", inputs.email);
-    localStorage.setItem("userPassword", inputs.pass);
-  };
-  return (
-    <div className="forms">
-      <form onSubmit={handleSubmit} enctype="multipart/form-data">
-        <p className="forms__title">Regiser</p>
-        <div className="forms__content">
-          <div className="forms__content--input">
-            <input
-              ref={emailRef}
-              name="email"
-              type="text"
-              placeholder="Email"
-              onChange={handleInput}
-            />
-            {/* {errors.email && (
-              <p className="forms__content--err">{errors.email}</p>
-            )} */}
-            <br />
-            <input
-              ref={passwordRef}
-              name="pass"
-              type="text"
-              placeholder="Password"
-              onChange={handleInput}
-            />
-            <br />
-            <input name="avatar" type="file" onChange={handleInput} />
+//           <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+//             Login
+//           </button>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
 
-            <br />
-            <select
-              value={inputs.sex}
-              className="forms__content--select"
-              name="sex"
-              onChange={handleInput}
-            >
-              {arrs.map((arr) => (
-                <option key={arr.id} value={arr.id}>
-                  {arr.name}
-                </option>
-              ))}
-            </select>
-            <FormErrors errors={errors} />
-          </div>
-          <button className="forms__content--but" type="submit">
-            Register
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
-
-export default B32;
+// export default Login;
